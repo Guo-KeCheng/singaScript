@@ -1,5 +1,0 @@
-Invalid Syntax: Expected int, float, identifier, '+', '-', '(', '[', sekali', 'FOR', 'where got time', 'FUN'
-File <stdin>, line 1
-
-1 +
-   ^

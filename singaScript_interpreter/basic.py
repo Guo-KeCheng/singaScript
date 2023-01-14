@@ -1848,7 +1848,7 @@ class BuiltInFunction(BaseFunction):
     #####################################
 
     def execute_print(self, exec_ctx):
-        #print(str(exec_ctx.symbol_table.get('value')))
+        print(str(exec_ctx.symbol_table.get('value')))
         return RTResult().success(String(str(exec_ctx.symbol_table.get('value'))))
     execute_print.arg_names = ['value']
 
