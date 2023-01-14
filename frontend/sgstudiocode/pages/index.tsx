@@ -8,10 +8,10 @@ import ButtonSegment from "@/components/ButtonSegment";
 import IDE from "@/components/IDE";
 import TestCase from "@/components/TestCase";
 import axios from "axios";
+import { getRandomArbitrary } from "./utils";
 
 const Index = () => {
   const [activeChallenge, setActiveChallenge] = useState(0);
-
   const [validChallenges, setValidChallenges] = useState(
     // Array(challenges.length).fill(false)
     [true, true, false, false, true, true, true, true]
@@ -20,6 +20,37 @@ const Index = () => {
   const [savedIdeState, saveIdeState] = useState(
     Array(challenges.length).fill("print('HelloWorld')")
   );
+  const [code, setCode] = useState("print('HelloWorld')");
+  const [IDEoutput, setIDEOutput] = useState("");
+  const [challengeOutput, setChallengeOutput] = useState("");
+
+  const [hasSubmittedChallenge, setSubmittedChallenge] = useState(false);
+  const [correctAnsCount, setCorrectAnsCount] = useState(0);
+
+  useEffect(() => {
+    setSubmittedChallenge(false);
+    setCorrectAnsCount(0);
+    console.log(activeChallenge, "- Has changed");
+  }, [activeChallenge, correctAnsCount]);
+
+  const [merliEmotion, setMerliEmotion] = useState("happy");
+  const [merliSpeech, setMerliSpeech] = useState(
+    "Hello fellow Singaporeans! Welcome to singaScript! Have fun!"
+  );
+
+  const merliConfused = [
+    "Alamak why your code so bad one?",
+    "Aiyo, so terrible!",
+    "Your coding damn jialat sia",
+    "Your neigbour next door can code better than you sia",
+  ];
+  const merliExcited = ["Not bad ah!", "Good try la!"];
+  const merliLove = [
+    "Wahh power la!",
+    "Shiok ah!",
+    "Wah your coding skills very good ah!",
+    "Can get into Google already sia!",
+  ];
 
   // Populates the IDE view with the data from the specified challenge
   const populateIDE: (challengeIndex: number) => void = function (
@@ -55,14 +86,28 @@ const Index = () => {
     setValidChallenges(clonedValidChallengeState);
   };
 
-  // marks a particular challenge as completed
-  const completeChallengeSuccess: (challengeIndex: number) => void = function (
-    challengeIndex: number
-  ): void {
-    const clonedValidChallengeState = [...validChallenges];
-    clonedValidChallengeState[challengeIndex] = true;
-    setValidChallenges(clonedValidChallengeState);
-  };
+  // updates the merli mascot expressions and speeches dependending on
+  // how well the user scored, or if there was an exception
+  const updateMerli: (exception: boolean, userScore: number) => void =
+    function (exception: boolean, userScore: number): void {
+      if (exception) {
+        setMerliEmotion("confused");
+        const speech =
+          merliConfused[getRandomArbitrary(0, merliConfused.length)];
+        setMerliSpeech(speech);
+      } else {
+        if (userScore > 0 && userScore < 1) {
+          setMerliEmotion("merliExcited");
+          const speech =
+            merliExcited[getRandomArbitrary(0, merliExcited.length)];
+          setMerliSpeech(speech);
+        } else if (userScore === 1) {
+          setMerliEmotion("merliLove");
+          const speech = merliLove[getRandomArbitrary(0, merliLove.length)];
+          setMerliSpeech(speech);
+        }
+      }
+    };
 
   // Controls whether the user is allowed to advance (eg if the game state is allowed to go to next or prev)
 
@@ -79,19 +124,6 @@ const Index = () => {
     console.log(savedIdeState);
   };
 
-  const [code, setCode] = useState("print('HelloWorld')");
-
-  const [IDEoutput, setIDEOutput] = useState("");
-
-  const [challengeOutput, setChallengeOutput] = useState("");
-
-  const [hasSubmittedChallenge, setSubmittedChallenge] = useState(false);
-
-  useEffect(() => {
-    setSubmittedChallenge(false);
-    console.log(activeChallenge, "- Has changed");
-  }, [activeChallenge]);
-
   const submitCode = () => {
     console.log(code);
 
@@ -105,7 +137,6 @@ const Index = () => {
       setChallengeOutput(data);
       setIDEOutput(data);
       setSubmittedChallenge(true);
-
       // check result and completeChallengeSuccess if the result matches the expected value
     });
   };
@@ -120,15 +151,19 @@ const Index = () => {
 
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-8">
-          <ChallengeCard challenge={activeChallenge} goToNext={goToNext} />
+          <ChallengeCard
+            challenge={activeChallenge}
+            goToNext={goToNext}
+            hasCompletedChallenge={validChallenges[activeChallenge]}
+          />
           <IDE output={IDEoutput} code={code} setCode={setCode} />
         </div>
 
         <div className="col-span-4">
           <div className="h-[75vh]">
             <MerliCard
-              speech={"why u so shit"}
-              emotion={"confused"}
+              speech={merliSpeech}
+              emotion={merliEmotion}
               hasSubmittedChallenge={hasSubmittedChallenge}
             />
 
