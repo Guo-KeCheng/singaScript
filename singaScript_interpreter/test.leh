@@ -23,7 +23,7 @@ alex;
 
 # If - else #
 
-sekali you lousier than alex then PRINT("Lies");
+sekali you lousier than alex then print("Lies");
 
 
 # While #
@@ -31,3 +31,10 @@ sekali you lousier than alex then PRINT("Lies");
 where got time benches not same 1 then chope benches -1 benches;
 
 where got time grandma lousier than 1 then chope grandma -1 grandma;
+
+# Errors #
+
+FUN test(x, y) -> x same y; 
+print("yo");
+
+test(9,8);
