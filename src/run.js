@@ -1,7 +1,8 @@
 const express = require("express");
-const fs = require("fs/promises");
 const { exec } = require("child_process");
 const Joi = require("joi");
+const { nanoid } = require("nanoid");
+const { createLahFile, deleteLahFile } = require("./fileutils");
 
 const router = express.Router();
 const reqSchema = Joi.object({ userInput: Joi.string().required() });
@@ -23,12 +24,14 @@ router.post("/", function (req, res) {
 });
 
 function runCode(res, value) {
-  const lahFile = createLahFile(value);
+  const tmpFileName = nanoid();
+  const lahFile = createLahFile(value, tmpFileName);
 
   lahFile
     .then(() =>
       exec(
-        "python3 ../singaScript_interpreter/shell.py temp.lah",
+        // unfortunately no promise based yet
+        `python3 ../singaScript_interpreter/shell.py ${tmpFileName}`,
         (err, stdout, stderr) => {
           if (err) {
             console.error(`error: ${err.message}`);
@@ -41,15 +44,14 @@ function runCode(res, value) {
           }
 
           const returnResult = { results: stdout };
+
+          deleteLahFile(tmpFileName);
+
           res.json(returnResult);
         }
       )
     )
     .catch((error) => console.log(error));
-}
-
-function createLahFile(value) {
-  return fs.writeFile("temp.lah", value);
 }
 
 module.exports = router;
