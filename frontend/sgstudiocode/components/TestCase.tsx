@@ -11,10 +11,10 @@ const TestCase: FunctionComponent<{
       <p className="text-darkRed">{func}</p>
       <p>Result: {userResult}</p>
       <p>Expected: {expectedResult}</p>
-      {userResult === expectedResult && (
+      {userResult == expectedResult && (
         <Image src="/tick.png" alt="merli" width={20} height={20} />
       )}
-      {userResult !== expectedResult && (
+      {userResult != expectedResult && (
         <Image src="/cross.png" alt="merli" width={20} height={20} />
       )}
     </div>

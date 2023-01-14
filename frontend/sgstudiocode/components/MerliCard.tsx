@@ -17,14 +17,14 @@ const MerliCard: FunctionComponent<{
         <div className="flex flex-row justify-center place-items-center">
           <Merli emotion={emotion} />
 
-          <div className="relative flex justify-center text-center place-items-center">
+          <div className="relative flex content-center justify-center text-center place-items-center">
             <Image
               src="/speechBubbleHor.png"
               alt="merli"
               width={300}
               height={200}
             />
-            <h1 className="absolute p-6 mt-4 text-xs text-black font-pressstart">
+            <h1 className="ml-8 absolute p-6 text-[10px] text-black font-pressstart">
               {speech}
             </h1>
           </div>

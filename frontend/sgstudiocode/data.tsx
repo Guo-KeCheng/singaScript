@@ -42,9 +42,9 @@ export const challenges: IChallenge[] = [
     testCases: [
       {
         id: 1,
-        function: "chopeTable(3, 4)",
+        function: "chopeTable(1, 2)",
         expectedResult: 5,
-        parameters: { a: 3, b: 4 },
+        parameters: { a: 3, b: 2 },
       },
       {
         id: 2,
@@ -54,9 +54,9 @@ export const challenges: IChallenge[] = [
       },
       {
         id: 3,
-        function: "chopeTable(3, 4)",
-        expectedResult: 1,
-        parameters: { a: 4, b: 3 },
+        function: "chopeTable(5, 6)",
+        expectedResult: 7,
+        parameters: { a: 5, b: 3 },
       },
     ],
   },

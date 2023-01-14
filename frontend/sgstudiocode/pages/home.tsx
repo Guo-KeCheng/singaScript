@@ -12,18 +12,18 @@ import { getRandomArbitrary } from "./utils";
 import { motion } from "framer-motion";
 import { fadeInUp, stagger } from "@/styles/animations";
 import { randomFillSync } from "crypto";
+import { type } from "os";
 
 const Home = () => {
   const [activeChallenge, setActiveChallenge] = useState(0);
   const [validChallenges, setValidChallenges] = useState(
-    // Array(challenges.length).fill(false)
-    [true, true, false, false, true, true, true, true]
+    Array(challenges.length).fill(false)
   );
 
   const [savedIdeState, saveIdeState] = useState(
-    Array(challenges.length).fill('print("HelloWorld")')
+    Array(challenges.length).fill('simi("HelloWorld")')
   );
-  const [code, setCode] = useState('print("HelloWorld")');
+  const [code, setCode] = useState('simi("HelloWorld")');
   const [IDEoutput, setIDEOutput] = useState("");
 
   const results: string[] = [];
@@ -32,26 +32,36 @@ const Home = () => {
   const [hasSubmittedChallenge, setSubmittedChallenge] = useState(false);
   const [correctAnsCount, setCorrectAnsCount] = useState(0);
 
-  useEffect(() => {
-    setSubmittedChallenge(false);
-    setCorrectAnsCount(0);
-    setMerliSpeech(
-      "Hello fellow Singaporeans! Welcome to singaScript! Have fun!"
-    );
-    console.log(activeChallenge, "- Has changed");
-  }, [activeChallenge, correctAnsCount]);
+  // useEffect(() => {
+  //   console.log(activeChallenge, "- Has changed");
+  // }, [activeChallenge, correctAnsCount]);
 
   const [merliEmotion, setMerliEmotion] = useState("happy");
   const [merliSpeech, setMerliSpeech] = useState(
-    "Hello fellow Singaporeans! Welcome to singaScript! Have fun!"
+    "Hi fellow Singaporeans! Welcome to singaScript! Have fun!"
   );
 
+  const merliGeneral = [
+    "Wah today weather quite hot ah",
+    "How are you liking singaScript so far?",
+    "Please ignore any bugs you find UwU",
+    "Wah CNY is coming sia very excited",
+    "How are you today?",
+    "Hello! I'm Merli from STB!",
+    "If you dk how use singaScript, refer to documentation on GitHub okay?",
+    "A UDP packet walks into a bar. A UDP packet walks into a bar. A UDP packet walks into a bar. The bartender says 'hello'.",
+    "A TCP packet walks into a bar and says 'I’d like a beer.' The barman replies 'You’d like a beer?' 'Yes,'replies the TCP packet, 'I’d like a beer.'",
+    "Hello! I'm Merli from STB!",
+    "Q. How many software engineers does it take to change a light bulb? A. None. It's a hardware problem.",
+    "When do two functions fight? When they have arguments!",
+    "What happened to all the illegal exceptions? They were all caught!",
+  ];
   const merliConfused = [
     "Alamak why your code so bad one?",
     "Aiyo, so terrible!",
-    "Your coding damn jialat sia",
+    "Your coding damn jialat sia....",
     "Your neigbour next door can code better than you sia",
-    "Why your code so shit one? My grandmother can code better than you!",
+    "My grandmother can code better than you!",
   ];
   const merliExcited = ["Not bad ah!", "Good try la!"];
   const merliLove = [
@@ -59,6 +69,7 @@ const Home = () => {
     "Shiok ah!",
     "Wah your coding skills very good ah!",
     "Can get into Google already sia!",
+    "CS god please give me enlightenment!",
   ];
 
   // Populates the IDE view with the data from the specified challenge
@@ -95,29 +106,42 @@ const Home = () => {
     setValidChallenges(clonedValidChallengeState);
   };
 
+  // marks a particular challenge as completed
+  const refreshStates: () => void = function (): void {
+    setCorrectAnsCount(0);
+    setSubmittedChallenge(false);
+    setMerliEmotion("happy");
+    var speech =
+      merliGeneral[Math.floor(getRandomArbitrary(0, merliGeneral.length))];
+
+    setMerliSpeech(speech);
+
+    setIDEOutput("");
+  };
+
   // updates the merli mascot expressions and speeches dependending on
   // how well the user scored, or if there was an exception
   const updateMerli: (exception: boolean, userScore: number) => void =
     function (exception: boolean, userScore: number): void {
-      if (exception) {
+      if (exception || userScore == 0) {
         setMerliEmotion("confused");
         const speech =
           merliConfused[
-            Math.round(getRandomArbitrary(0, merliConfused.length))
+            Math.floor(getRandomArbitrary(0, merliConfused.length))
           ];
         setMerliSpeech(speech);
       } else {
         if (userScore > 0 && userScore < 1) {
-          setMerliEmotion("merliExcited");
+          setMerliEmotion("excited");
           const speech =
             merliExcited[
-              Math.round(getRandomArbitrary(0, merliExcited.length))
+              Math.floor(getRandomArbitrary(0, merliExcited.length))
             ];
           setMerliSpeech(speech);
-        } else if (userScore === 1) {
-          setMerliEmotion("merliLove");
+        } else if (userScore == 1) {
+          setMerliEmotion("love");
           const speech =
-            merliLove[Math.round(getRandomArbitrary(0, merliLove.length))];
+            merliLove[Math.floor(getRandomArbitrary(0, merliLove.length))];
           setMerliSpeech(speech);
         }
       }
@@ -136,7 +160,8 @@ const Home = () => {
 
     for (let i = 0; i < currentTestCases.length; i++) {
       const userResult = userResults[i];
-      if (userResult === currentTestCases[i].expectedResult) {
+
+      if (userResult == currentTestCases[i].expectedResult) {
         correctAnswers += 1;
       }
     }
@@ -151,6 +176,7 @@ const Home = () => {
   let goToNext: (toAdvance: boolean) => void = function (
     toAdvance: boolean
   ): void {
+    refreshStates();
     if (toAdvance && validChallenges[activeChallenge] === true) {
       if (activeChallenge + 1 < challenges.length) {
         updateGameState(activeChallenge, toAdvance);
@@ -202,7 +228,7 @@ const Home = () => {
         for (let i = 0; i < testCaseResponses.length; i++) {
           const testCaseResponse = testCaseResponses[i];
           testCaseResultsStr.push(String(testCaseResponse.output.slice(-1)));
-          testCaseResultsStr.push(testCaseResponse.output.slice(-1));
+          testCaseResults.push(testCaseResponse.output.slice(-1));
         }
 
         setChallengeOutput(testCaseResultsStr);
@@ -215,14 +241,46 @@ const Home = () => {
           testCaseResults,
           testCaseResponses[0].challengeIndex
         );
+
         updateMerli(testCaseResponses.slice(-1).exceptionOccurred, userScore);
 
         if (userScore === 1) {
           completeChallengeSuccess(testCaseResponses[0].challengeIndex);
+          console.log("challenge success");
+        } else {
+          console.log("challenge failed");
         }
-
         // check result and completeChallengeSuccess if the result matches the expected value
       });
+  };
+
+  const runCode = () => {
+    console.log(code);
+
+    const submissionData = {
+      userInput: code,
+    };
+
+    axios.post("http://localhost:3000/run", submissionData).then((response) => {
+      if (response.status !== 200) {
+        console.log("Error occurred");
+        console.log(response);
+        setMerliSpeech(
+          "Walao eh our code crashed :( Don't worry la you can try again next time!"
+        );
+        return;
+      }
+
+      const codeOutput = response.data.output;
+      for (let i = 0; i < codeOutput.length; i++) {
+        codeOutput[i] = `what u get > ${codeOutput[i]}`;
+      }
+      var speech =
+        merliGeneral[Math.floor(getRandomArbitrary(0, merliGeneral.length))];
+
+      setMerliSpeech(speech);
+      setIDEOutput(codeOutput.join("\n"));
+    });
   };
 
   return (
@@ -260,7 +318,7 @@ const Home = () => {
               <div className="p-2 mt-5 rounded-md bg-greyOutline outline outline-4 outline-offset-0 outline-greyOutline">
                 <div className="flex items-end justify-center py-3 text-lg font-bold bg-white rounded-lg font-fredoka">
                   <span className="text-3xl font-bold text-darkRed font-fredoka">
-                    {correctAnsCount} of 
+                    {correctAnsCount} of{" "}
                     {challenges[activeChallenge].testCases.length}&nbsp;
                   </span>{" "}
                   test cases passed!
@@ -283,7 +341,7 @@ const Home = () => {
             <ButtonSegment
               canProceed={validChallenges[activeChallenge]}
               submitCode={submitCode}
-              runCode={submitCode}
+              runCode={runCode}
               goToNext={goToNext}
             />
           </div>

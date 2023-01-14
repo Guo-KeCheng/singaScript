@@ -21,8 +21,8 @@ const IDE: FunctionComponent<{
           }}
         />
       </div>
-      <div className="p-6 mt-5 text-base text-white rounded-lg bg-lightBlack font-monospace">
-        what you wan &gt; {output}
+      <div className="p-6 mt-5 text-base text-white whitespace-pre-wrap rounded-lg bg-lightBlack font-monospace">
+        {!output ? <h1>what u get &gt; </h1> : output}
       </div>
     </div>
   );
