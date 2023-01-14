@@ -1,3 +1,4 @@
+const fsSync = require("fs");
 const fs = require("fs/promises");
 
 const createLahFile = (value, filename) => {
@@ -5,7 +6,7 @@ const createLahFile = (value, filename) => {
 };
 
 const deleteLahFile = (filename) => {
-  return fs.unlink(filename);
+  return fsSync.unlinkSync(filename);
 };
 
 exports.createLahFile = createLahFile;

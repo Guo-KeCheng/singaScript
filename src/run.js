@@ -33,7 +33,7 @@ function runCode(res, value) {
     .then(() =>
       exec(
         // unfortunately no promise based yet
-        `python3 ../singaScript_interpreter/shell.py ${tmpFileName}`,
+        `python3 ./src/singaScript_interpreter/shell.py ${tmpFileName}`,
         (err, stdout, stderr) => {
           if (err) {
             console.error(`error: ${err.message}`);

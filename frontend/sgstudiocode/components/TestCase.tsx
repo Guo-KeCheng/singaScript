@@ -10,7 +10,7 @@ const TestCase: FunctionComponent<{
     <div className="flex items-center justify-around h-16 p-3 mt-3 text-sm bg-white rounded-lg base font-fredoka">
       <p className="text-darkRed">{func}</p>
       <p>Result: {userResult}</p>
-      <p>Expected: {expectedResult}</p>
+      <p>Expected: {String(expectedResult)}</p>
       {userResult == expectedResult && (
         <Image src="/tick.png" alt="merli" width={20} height={20} />
       )}
