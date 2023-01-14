@@ -64,7 +64,7 @@ async function submitCode(res, value, params, challengeIndex, testIndex) {
   const tmpFileName = nanoid();
   await addParamsToTop(tmpFileName, value, params);
   return exec(
-    `python3 ../singaScript_interpreter/shell.py ${tmpFileName}`
+    `python3 ./src/singaScript_interpreter/shell.py ${tmpFileName}`
   ).then((x) => {
     deleteLahFile(tmpFileName);
     const stdout = x.stdout;
