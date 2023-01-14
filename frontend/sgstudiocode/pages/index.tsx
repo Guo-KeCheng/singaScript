@@ -78,13 +78,16 @@ const Index = () => {
 
   const submitCode = () => {
     console.log(code);
-    axios.post("localhost.com:3000", { code }).then((res) => console.log(res));
-    const submittedChallenge = 2;
-    const userResult = "hreiaghiotbir";
 
-    if (submittedChallenge == activeChallenge) {
-      setChallengeOutput(userResult);
-    }
+    const submissionData = {
+      challengeIndex: activeChallenge,
+      testCases: challenges[activeChallenge].testCases,
+      userInput: code,
+    };
+
+    axios
+      .post("localhost.com:3000", { submissionData })
+      .then((res) => console.log(res));
   };
 
   return (
