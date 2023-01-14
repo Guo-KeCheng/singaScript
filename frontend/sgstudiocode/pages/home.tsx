@@ -25,7 +25,9 @@ const Home = () => {
   );
   const [code, setCode] = useState('print("HelloWorld")');
   const [IDEoutput, setIDEOutput] = useState("");
-  const [challengeOutput, setChallengeOutput] = useState("");
+
+  const results: string[] = [];
+  const [challengeOutput, setChallengeOutput] = useState(results);
 
   const [hasSubmittedChallenge, setSubmittedChallenge] = useState(false);
   const [correctAnsCount, setCorrectAnsCount] = useState(0);
@@ -166,17 +168,51 @@ const Home = () => {
 
     axios
       .post("http://localhost:3000/submit", submissionData)
-      .then(({ data }) => {
-        setChallengeOutput(data);
-        setIDEOutput(data);
+      .then((response) => {
+        console.log(response);
+
+        if (response.status !== 200) {
+          console.log("Error occurred");
+          console.log(response);
+          return;
+        }
+
+        function compareFunction(a: any, b: any) {
+          if (a.testIndex > b.testIndex) return 1;
+          else return -1;
+        }
+
+        const testCaseResponses = response.data.sort(compareFunction);
+
+        if (testCaseResponses.length === 0) {
+          console.log("Error occurred, received empty list");
+          return;
+        }
+
+        const testCaseResultsStr = [];
+        const testCaseResults: any[] = [];
+
+        for (let i = 0; i < testCaseResponses.length; i++) {
+          const testCaseResponse = testCaseResponses[i];
+          testCaseResultsStr.push(String(testCaseResponse.output.slice(-1)));
+          testCaseResultsStr.push(testCaseResponse.output.slice(-1));
+        }
+
+        setChallengeOutput(testCaseResultsStr);
+
+        //setIDEOutput(data.output);
+
         setSubmittedChallenge(true);
 
-        // const userScore = getUserScore();
-        // updateMerli(, userScore)
+        const userScore = getUserScore(
+          testCaseResults,
+          testCaseResponses[0].challengeIndex
+        );
+        updateMerli(testCaseResponses.slice(-1).exceptionOccurred, userScore);
 
-        // if (userScore === 1) {
-        //   completeChallengeSuccess()
-        // }
+        if (userScore === 1) {
+          completeChallengeSuccess(testCaseResponses[0].challengeIndex);
+        }
 
         // check result and completeChallengeSuccess if the result matches the expected value
       });
@@ -229,7 +265,7 @@ const Home = () => {
                       <TestCase
                         key={index}
                         func={testCase.function}
-                        userResult={challengeOutput}
+                        userResult={challengeOutput[index]}
                         expectedResult={testCase.expectedResult}
                       />
                     )

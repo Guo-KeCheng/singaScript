@@ -5,6 +5,7 @@ export interface IChallenge {
 
 
 export interface ITestCase {
+    id: number
     function: string,
     expectedResult: number | boolean | string,
     parameters: Object
