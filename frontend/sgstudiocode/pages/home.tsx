@@ -156,20 +156,22 @@ const Home = () => {
       userInput: code,
     };
 
-    axios.post("localhost.com:3000", { submissionData }).then(({ data }) => {
-      setChallengeOutput(data);
-      setIDEOutput(data);
-      setSubmittedChallenge(true);
+    axios
+      .post("http://localhost:3000/submit", submissionData)
+      .then(({ data }) => {
+        setChallengeOutput(data);
+        setIDEOutput(data);
+        setSubmittedChallenge(true);
 
-      // const userScore = getUserScore();
-      // updateMerli(, userScore)
+        // const userScore = getUserScore();
+        // updateMerli(, userScore)
 
-      // if (userScore === 1) {
-      //   completeChallengeSuccess()
-      // }
+        // if (userScore === 1) {
+        //   completeChallengeSuccess()
+        // }
 
-      // check result and completeChallengeSuccess if the result matches the expected value
-    });
+        // check result and completeChallengeSuccess if the result matches the expected value
+      });
   };
 
   return (

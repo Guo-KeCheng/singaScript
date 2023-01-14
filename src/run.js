@@ -17,7 +17,8 @@ router.post("/", function (req, res) {
   const { error, value } = reqSchema.validate(req.body);
 
   if (error) {
-    res.status(404).send(error.details[0].message);
+    res.status(405).send(error.details[0].message);
+    return;
   }
 
   runCode(res, value.userInput);
@@ -44,6 +45,7 @@ function runCode(res, value) {
           }
 
           const returnResult = { results: stdout };
+          console.log(returnResult);
 
           deleteLahFile(tmpFileName);
 
