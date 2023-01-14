@@ -35,6 +35,9 @@ const Home = () => {
   useEffect(() => {
     setSubmittedChallenge(false);
     setCorrectAnsCount(0);
+    setMerliSpeech(
+      "Hello fellow Singaporeans! Welcome to singaScript! Have fun!"
+    );
     console.log(activeChallenge, "- Has changed");
   }, [activeChallenge, correctAnsCount]);
 
@@ -48,6 +51,7 @@ const Home = () => {
     "Aiyo, so terrible!",
     "Your coding damn jialat sia",
     "Your neigbour next door can code better than you sia",
+    "Why your code so shit one? My grandmother can code better than you!",
   ];
   const merliExcited = ["Not bad ah!", "Good try la!"];
   const merliLove = [
@@ -174,6 +178,9 @@ const Home = () => {
         if (response.status !== 200) {
           console.log("Error occurred");
           console.log(response);
+          setMerliSpeech(
+            "Walao eh our code crashed :( Don't worry la you can try again next time!"
+          );
           return;
         }
 
@@ -253,8 +260,7 @@ const Home = () => {
               <div className="p-2 mt-5 rounded-md bg-greyOutline outline outline-4 outline-offset-0 outline-greyOutline">
                 <div className="flex items-end justify-center py-3 text-lg font-bold bg-white rounded-lg font-fredoka">
                   <span className="text-3xl font-bold text-darkRed font-fredoka">
-                    {" "}
-                    {correctAnsCount} of{" "}
+                    {correctAnsCount} of 
                     {challenges[activeChallenge].testCases.length}&nbsp;
                   </span>{" "}
                   test cases passed!

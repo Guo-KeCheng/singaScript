@@ -3,7 +3,7 @@ import { IChallenge } from "./types";
 export const challenges: IChallenge[] = [
   {
     description:
-      "compiled client and server successfully in 66 ms (234 modules)",
+      "'Huat ah' is a common expression used to express good luck, success, and prosperity. As we are approaching Chinese New Year, printing 'Huat ah!' to help Uncle Tan boost his luck for his next lottery.",
     testCases: [
       {
         id: 1,
