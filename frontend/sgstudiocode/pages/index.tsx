@@ -1,4 +1,4 @@
-import react, { useRef, useState } from "react";
+import react, { useEffect, useRef, useState } from "react";
 
 import { challenges } from "@/data";
 import ChallengeCard from "@/components/ChallengeCard";
@@ -55,6 +55,15 @@ const Index = () => {
     setValidChallenges(clonedValidChallengeState);
   };
 
+  // marks a particular challenge as completed
+  const completeChallengeSuccess: (challengeIndex: number) => void = function (
+    challengeIndex: number
+  ): void {
+    const clonedValidChallengeState = [...validChallenges];
+    clonedValidChallengeState[challengeIndex] = true;
+    setValidChallenges(clonedValidChallengeState);
+  };
+
   // Controls whether the user is allowed to advance (eg if the game state is allowed to go to next or prev)
 
   let goToNext: (toAdvance: boolean) => void = function (
@@ -76,6 +85,13 @@ const Index = () => {
 
   const [challengeOutput, setChallengeOutput] = useState("");
 
+  const [hasSubmittedChallenge, setSubmittedChallenge] = useState(false);
+
+  useEffect(() => {
+    setSubmittedChallenge(false);
+    console.log(activeChallenge, "- Has changed");
+  }, [activeChallenge]);
+
   const submitCode = () => {
     console.log(code);
 
@@ -88,6 +104,9 @@ const Index = () => {
     axios.post("localhost.com:3000", { submissionData }).then(({ data }) => {
       setChallengeOutput(data);
       setIDEOutput(data);
+      setSubmittedChallenge(true);
+
+      // check result and completeChallengeSuccess if the result matches the expected value
     });
   };
 
@@ -107,9 +126,13 @@ const Index = () => {
 
         <div className="col-span-4">
           <div className="h-[75vh]">
-            <MerliCard speech={"why u so shit"} emotion={"confused"} />
+            <MerliCard
+              speech={"why u so shit"}
+              emotion={"confused"}
+              hasSubmittedChallenge={hasSubmittedChallenge}
+            />
 
-            {validChallenges[activeChallenge] ? (
+            {hasSubmittedChallenge ? (
               <div className="p-2 mt-5 rounded-md bg-greyOutline outline outline-4 outline-offset-0 outline-greyOutline">
                 <div className="flex items-end justify-center py-3 text-lg font-bold bg-white rounded-lg font-fredoka">
                   <span className="text-3xl font-bold text-darkRed font-fredoka">
