@@ -9,6 +9,9 @@ import IDE from "@/components/IDE";
 import TestCase from "@/components/TestCase";
 import axios from "axios";
 import { getRandomArbitrary } from "./utils";
+import { motion } from "framer-motion";
+import { fadeInUp, stagger } from "@/styles/animations";
+import { randomFillSync } from "crypto";
 
 const Home = () => {
   const [activeChallenge, setActiveChallenge] = useState(0);
@@ -93,17 +96,22 @@ const Home = () => {
       if (exception) {
         setMerliEmotion("confused");
         const speech =
-          merliConfused[getRandomArbitrary(0, merliConfused.length)];
+          merliConfused[
+            Math.round(getRandomArbitrary(0, merliConfused.length))
+          ];
         setMerliSpeech(speech);
       } else {
         if (userScore > 0 && userScore < 1) {
           setMerliEmotion("merliExcited");
           const speech =
-            merliExcited[getRandomArbitrary(0, merliExcited.length)];
+            merliExcited[
+              Math.round(getRandomArbitrary(0, merliExcited.length))
+            ];
           setMerliSpeech(speech);
         } else if (userScore === 1) {
           setMerliEmotion("merliLove");
-          const speech = merliLove[getRandomArbitrary(0, merliLove.length)];
+          const speech =
+            merliLove[Math.round(getRandomArbitrary(0, merliLove.length))];
           setMerliSpeech(speech);
         }
       }
@@ -175,7 +183,12 @@ const Home = () => {
   };
 
   return (
-    <div className="p-5">
+    <motion.div
+      variants={stagger}
+      initial="initial"
+      animate="animate"
+      className="p-5"
+    >
       <div className="flex justify-center m-6">
         <h1 className="text-3xl text-white font-pressstart">
           <span className="text-darkYellow">SG </span>STUDIO CODE
@@ -183,16 +196,16 @@ const Home = () => {
       </div>
 
       <div className="grid grid-cols-12 gap-6">
-        <div className="col-span-8">
+        <motion.div variants={fadeInUp} className="col-span-8">
           <ChallengeCard
             challenge={activeChallenge}
             goToNext={goToNext}
             hasCompletedChallenge={validChallenges[activeChallenge]}
           />
           <IDE output={IDEoutput} code={code} setCode={setCode} />
-        </div>
+        </motion.div>
 
-        <div className="col-span-4">
+        <motion.div variants={fadeInUp} className="col-span-4">
           <div className="h-[75vh]">
             <MerliCard
               speech={merliSpeech}
@@ -232,9 +245,9 @@ const Home = () => {
               goToNext={goToNext}
             />
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
