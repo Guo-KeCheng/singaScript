@@ -2377,7 +2377,6 @@ def run(fn, text):
 
     # Generate AST
     parser = Parser(tokens)
-    print(tokens)
     ast = parser.parse()
     if ast.error:
         return None, ast.error

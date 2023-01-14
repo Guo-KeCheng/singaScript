@@ -1,34 +1,33 @@
-1 + 1 * 3;
-1 + 1 * 3;
+# Arithmetic #
 
-chope 3 benches;
+1 + 2 * 3 - (1.5 ^ 2);
 
-chope 2 tables;
+# Declarations #
 
-benches + tables;
+chope 1 tables can liao
+chope 2 benches can liao
 
-benches same tables;
+chope 5 alex can liao
+chope 1 you can liao
+chope 10 grandma can liao
 
-benches better than tables;
+# Conditionals #
 
-chope benches - 1 benches;
+tables same benches;
+tables not same benches;
 
-benches lousier than or same tables;
+alex better than you;
+you lousier than grandma;
 
-# now benches is 2 #
-# now tables is 2 #
+alex;
 
-sekali 1 not same 2 
-    then sekali 1 not same 3 
-        then 4
-can liao
+# If - else #
 
-# 
-testing 
-#
+sekali you lousier than alex then PRINT("Lies");
 
 
-chope 
-4 
-table
-can liao
+# While #
+
+where got time benches not same 1 then chope benches -1 benches;
+
+where got time grandma lousier than 1 then chope grandma -1 grandma;
