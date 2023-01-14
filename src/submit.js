@@ -75,8 +75,6 @@ function submitCode(res, value, params, challengeIndex) {
             exceptionMsg,
           };
 
-          console.log(returnResult);
-
           deleteLahFile(tmpFileName);
 
           res.json(returnResult);
