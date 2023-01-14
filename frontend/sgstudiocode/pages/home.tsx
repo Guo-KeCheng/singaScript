@@ -271,15 +271,21 @@ const Home = () => {
         return;
       }
 
-      const codeOutput = response.data.output;
-      for (let i = 0; i < codeOutput.length; i++) {
-        codeOutput[i] = `what u get > ${codeOutput[i]}`;
-      }
-      var speech =
-        merliGeneral[Math.floor(getRandomArbitrary(0, merliGeneral.length))];
+      const data = response.data;
 
-      setMerliSpeech(speech);
-      setIDEOutput(codeOutput.join("\n"));
+      if (data.exceptionOccurred) {
+        setIDEOutput(data.exceptionMsg);
+      } else {
+        const codeOutput = data.output;
+        for (let i = 0; i < codeOutput.length; i++) {
+          codeOutput[i] = `what u get > ${codeOutput[i]}`;
+        }
+        var speech =
+          merliGeneral[Math.floor(getRandomArbitrary(0, merliGeneral.length))];
+
+        setMerliSpeech(speech);
+        setIDEOutput(codeOutput.join("\n"));
+      }
     });
   };
 

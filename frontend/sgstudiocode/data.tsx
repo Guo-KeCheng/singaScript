@@ -55,7 +55,7 @@ export const challenges: IChallenge[] = [
       {
         id: 3,
         function: "chopeTable(5, 6)",
-        expectedResult: 7,
+        expectedResult: 8,
         parameters: { a: 5, b: 3 },
       },
     ],
