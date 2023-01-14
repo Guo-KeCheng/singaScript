@@ -4,9 +4,8 @@ import sys
 text = sys.argv[1]
 file = open(text)
 content = file.read()
-print(content)
 
-result, error = basic.run('<stdin>', content)
+result, error = basic.run('<stdin>', content.replace("\n", "").replace("can liao", ";"))
 
 if error:
     print(error.as_string())
