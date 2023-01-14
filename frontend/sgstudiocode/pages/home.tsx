@@ -17,7 +17,7 @@ import { type } from "os";
 const Home = () => {
   const [activeChallenge, setActiveChallenge] = useState(0);
   const [validChallenges, setValidChallenges] = useState(
-    Array(challenges.length).fill(false)
+    Array(challenges.length).fill(true)
   );
 
   const [savedIdeState, saveIdeState] = useState(
@@ -345,6 +345,7 @@ const Home = () => {
             ) : null}
 
             <ButtonSegment
+              challengeIndex={activeChallenge}
               canProceed={validChallenges[activeChallenge]}
               submitCode={submitCode}
               runCode={runCode}

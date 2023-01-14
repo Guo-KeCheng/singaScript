@@ -56,7 +56,7 @@ const ChallengeCard: FunctionComponent<{
         </div>
       </div>
 
-      <p className="text-sm font-normal font-fredoka">
+      <p className="text-sm font-normal whitespace-pre-wrap font-fredoka">
         {challenges[challenge].description}
       </p>
     </div>

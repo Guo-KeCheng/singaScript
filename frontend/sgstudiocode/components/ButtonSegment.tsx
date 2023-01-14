@@ -1,15 +1,17 @@
+import { challenges } from "@/data";
 import React, { FunctionComponent } from "react";
 
 const ButtonSegment: FunctionComponent<{
+  challengeIndex: number;
   canProceed: boolean;
   submitCode: Function;
   runCode: Function;
   goToNext: Function;
-}> = ({ submitCode, canProceed, runCode, goToNext }) => {
+}> = ({ submitCode, canProceed, runCode, goToNext, challengeIndex }) => {
   return canProceed ? (
     <button onClick={() => goToNext(true)} className="w-full">
       <div className="py-3 mt-5 text-xs text-white rounded-lg bg-darkYellow font-pressstart hover:bg-gray-300 hover:text-black">
-        CONTINUE
+        {challengeIndex == challenges.length - 1 ? `FIN` : `CONTINUE`}
       </div>
     </button>
   ) : (
