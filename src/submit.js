@@ -1,5 +1,6 @@
 const express = require("express");
-const { exec } = require("child_process");
+const util = require("util");
+const exec = util.promisify(require("child_process").exec);
 const Joi = require("joi");
 const { nanoid } = require("nanoid");
 const { deleteLahFile } = require("./fileutils");
@@ -40,56 +41,48 @@ router.post("/", function (req, res) {
   const testCases = submissionData.testCases;
   const userInput = submissionData.userInput;
 
+  const submitCodePromises = [];
   testCases.forEach((testCase) => {
-    submitCode(
-      res,
-      userInput,
-      testCase.parameters,
-      value.challengeIndex,
-      testCase.id
+    submitCodePromises.push(
+      submitCode(
+        res,
+        userInput,
+        testCase.parameters,
+        value.challengeIndex,
+        testCase.id
+      )
     );
+  });
+
+  Promise.all(submitCodePromises).then((values) => {
+    console.log(values);
+    res.json(values);
   });
 });
 
-function submitCode(res, value, params, challengeIndex, testIndex) {
+async function submitCode(res, value, params, challengeIndex, testIndex) {
   const tmpFileName = nanoid();
-  const lahFile = addParamsToTop(tmpFileName, value, params);
+  await addParamsToTop(tmpFileName, value, params);
+  return exec(
+    `python3 ../singaScript_interpreter/shell.py ${tmpFileName}`
+  ).then((x) => {
+    deleteLahFile(tmpFileName);
+    const stdout = x.stdout;
+    const exceptionOccurred = checkExceptionOccur(stdout);
 
-  lahFile
-    .then(() =>
-      exec(
-        // unfortunately no promise based yet
-        `python3 ../singaScript_interpreter/shell.py ${tmpFileName}`,
-        (err, stdout, stderr) => {
-          if (err) {
-            console.error(`error: ${err.message}`);
-            return;
-          }
+    const output = exceptionOccurred ? null : stdout;
+    const exceptionMsg = exceptionOccurred ? stdout : null;
 
-          if (stderr) {
-            console.error(`stderr: ${stderr}`);
-            return;
-          }
+    const returnResult = {
+      challengeIndex,
+      testIndex,
+      output,
+      exceptionOccurred,
+      exceptionMsg,
+    };
 
-          const exceptionOccurred = checkExceptionOccur(stdout);
-
-          const output = exceptionOccurred ? null : stdout;
-          const exceptionMsg = exceptionOccurred ? stdout : null;
-          const returnResult = {
-            challengeIndex,
-            testIndex,
-            output,
-            exceptionOccurred,
-            exceptionMsg,
-          };
-
-          deleteLahFile(tmpFileName);
-
-          res.json(returnResult);
-        }
-      )
-    )
-    .catch((error) => console.log(error));
+    return returnResult;
+  });
 }
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const fs = require("fs/promises");
 
-const addParamsToTop = (filename, value, params) => {
+async function addParamsToTop(filename, value, params) {
   let res = "";
   const declarationStatements = generateDeclarationStatements(params);
   declarationStatements.forEach((statement) => {
@@ -8,7 +8,7 @@ const addParamsToTop = (filename, value, params) => {
   });
   res = res.concat(value);
   return fs.writeFile(filename, res);
-};
+}
 
 const generateDeclarationStatements = (params) => {
   const declarationStatements = [];
