@@ -109,6 +109,29 @@ const Index = () => {
       }
     };
 
+  const getUserScore: (
+    userResults: Array<string | number | boolean>,
+    submittedChallenge: number
+  ) => number = function (
+    userResults: Array<string | number | boolean>,
+    submittedChallenge: number
+  ): number {
+    const currentTestCases = challenges[submittedChallenge].testCases;
+    const numTestCases = currentTestCases.length;
+    var correctAnswers = 0;
+
+    for (let i = 0; i < currentTestCases.length; i++) {
+      const userResult = userResults[i];
+      if (userResult === currentTestCases[i].expectedResult) {
+        correctAnswers += 1;
+      }
+    }
+    //update the users score
+    setCorrectAnsCount(correctAnswers);
+
+    return correctAnswers / numTestCases;
+  };
+
   // Controls whether the user is allowed to advance (eg if the game state is allowed to go to next or prev)
 
   let goToNext: (toAdvance: boolean) => void = function (
@@ -137,6 +160,14 @@ const Index = () => {
       setChallengeOutput(data);
       setIDEOutput(data);
       setSubmittedChallenge(true);
+
+      // const userScore = getUserScore();
+      // updateMerli(, userScore)
+
+      // if (userScore === 1) {
+      //   completeChallengeSuccess()
+      // }
+
       // check result and completeChallengeSuccess if the result matches the expected value
     });
   };
@@ -172,7 +203,8 @@ const Index = () => {
                 <div className="flex items-end justify-center py-3 text-lg font-bold bg-white rounded-lg font-fredoka">
                   <span className="text-3xl font-bold text-darkRed font-fredoka">
                     {" "}
-                    2 of 3&nbsp;
+                    {correctAnsCount} of{" "}
+                    {challenges[activeChallenge].testCases.length}&nbsp;
                   </span>{" "}
                   test cases passed!
                 </div>
