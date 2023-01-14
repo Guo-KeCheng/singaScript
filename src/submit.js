@@ -3,7 +3,7 @@ const { exec } = require("child_process");
 const Joi = require("joi");
 const { nanoid } = require("nanoid");
 const { deleteLahFile } = require("./fileutils");
-const { addParamsToTop } = require("./submitutil");
+const { addParamsToTop, checkExceptionOccur } = require("./submitutil");
 
 const router = express.Router();
 
@@ -40,11 +40,11 @@ router.post("/", function (req, res) {
   const userInput = submissionData.userInput;
 
   testCases.forEach((testCase) => {
-    submitCode(res, userInput, testCase.parameters);
+    submitCode(res, userInput, testCase.parameters, value.challengeIndex);
   });
 });
 
-function submitCode(res, value, params) {
+function submitCode(res, value, params, challengeIndex) {
   const tmpFileName = nanoid();
   const lahFile = addParamsToTop(tmpFileName, value, params);
 
@@ -64,7 +64,18 @@ function submitCode(res, value, params) {
             return;
           }
 
-          const returnResult = { results: stdout };
+          const exceptionOccurred = checkExceptionOccur(stdout);
+
+          const output = exceptionOccurred ? null : stdout;
+          const exceptionMsg = exceptionOccurred ? stdout : null;
+          const returnResult = {
+            challengeIndex,
+            output,
+            exceptionOccurred,
+            exceptionMsg,
+          };
+
+          console.log(returnResult);
 
           deleteLahFile(tmpFileName);
 

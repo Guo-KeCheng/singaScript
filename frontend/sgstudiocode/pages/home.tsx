@@ -18,9 +18,9 @@ const Home = () => {
   );
 
   const [savedIdeState, saveIdeState] = useState(
-    Array(challenges.length).fill("print('HelloWorld')")
+    Array(challenges.length).fill('print("HelloWorld")')
   );
-  const [code, setCode] = useState("print('HelloWorld')");
+  const [code, setCode] = useState('print("HelloWorld")');
   const [IDEoutput, setIDEOutput] = useState("");
   const [challengeOutput, setChallengeOutput] = useState("");
 

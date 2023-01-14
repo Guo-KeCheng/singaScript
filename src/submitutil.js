@@ -20,4 +20,9 @@ const generateDeclarationStatements = (params) => {
   return declarationStatements;
 };
 
+const checkExceptionOccur = (output) => {
+  return output.charAt(0) !== "[";
+};
+
 exports.addParamsToTop = addParamsToTop;
+exports.checkExceptionOccur = checkExceptionOccur;
