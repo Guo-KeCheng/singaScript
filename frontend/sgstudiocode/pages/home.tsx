@@ -197,7 +197,7 @@ const Home = () => {
     };
 
     axios
-      .post("http://localhost:3000/submit", submissionData)
+      .post("https://singascript-backend.herokuapp.com/submit", submissionData)
       .then((response) => {
         console.log(response);
 
@@ -261,7 +261,7 @@ const Home = () => {
       userInput: code,
     };
 
-    axios.post("http://localhost:3000/run", submissionData).then((response) => {
+    axios.post("https://singascript-backend.herokuapp.com/run", submissionData).then((response) => {
       if (response.status !== 200) {
         console.log("Error occurred");
         console.log(response);
