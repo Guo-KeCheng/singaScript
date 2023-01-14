@@ -8,7 +8,7 @@ const ChallengeCard: FunctionComponent<{
   goToNext: Function;
 }> = ({ challenge, goToNext }) => {
   return (
-    <div className="p-6 bg-white rounded-lg  outline outline-4 outline-offset-0 outline-greyOutline">
+    <div className="p-6 bg-white rounded-lg outline outline-4 outline-offset-0 outline-greyOutline">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center">
           <h1 className="text-2xl font-bold font-fredoka text-darkYellow">
@@ -24,17 +24,29 @@ const ChallengeCard: FunctionComponent<{
         </div>
         <div>
           <button onClick={() => goToNext(false)}>
-            <BsArrowLeftSquareFill className="h-7 w-7 fill-darkYellow hover:fill-yellow-300 " />
+            <BsArrowLeftSquareFill
+              className={`h-7 w-7 fill-darkYellow  ${
+                challenges[challenge - 1]
+                  ? "fill-darkYellow hover:fill-gray-500"
+                  : "fill-gray-200"
+              }`}
+            />
           </button>
           &nbsp;&nbsp;
           <button onClick={() => goToNext(true)}>
-            <BsArrowRightSquareFill className="h-7 w-7 fill-darkYellow hover:fill-yellow-300" />
+            <BsArrowRightSquareFill
+              className={`h-7 w-7 fill-darkYellow  ${
+                challenges[challenge + 1]
+                  ? "fill-darkYellow hover:fill-gray-500"
+                  : "fill-gray-200"
+              }`}
+            />
           </button>
         </div>
       </div>
 
       <p className="text-sm font-normal font-fredoka">
-        {challenges[challenge]}
+        {challenges[challenge].description}
       </p>
     </div>
   );
