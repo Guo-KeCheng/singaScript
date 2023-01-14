@@ -9,6 +9,7 @@ const router = express.Router();
 
 const parametersSchema = Joi.object();
 const testCaseSchema = Joi.object({
+  id: Joi.number(),
   function: Joi.string(),
   expectedResult: Joi.alternatives()
     .try(Joi.string(), Joi.number(), Joi.boolean())
@@ -40,11 +41,17 @@ router.post("/", function (req, res) {
   const userInput = submissionData.userInput;
 
   testCases.forEach((testCase) => {
-    submitCode(res, userInput, testCase.parameters, value.challengeIndex);
+    submitCode(
+      res,
+      userInput,
+      testCase.parameters,
+      value.challengeIndex,
+      testCase.id
+    );
   });
 });
 
-function submitCode(res, value, params, challengeIndex) {
+function submitCode(res, value, params, challengeIndex, testIndex) {
   const tmpFileName = nanoid();
   const lahFile = addParamsToTop(tmpFileName, value, params);
 
@@ -70,6 +77,7 @@ function submitCode(res, value, params, challengeIndex) {
           const exceptionMsg = exceptionOccurred ? stdout : null;
           const returnResult = {
             challengeIndex,
+            testIndex,
             output,
             exceptionOccurred,
             exceptionMsg,
