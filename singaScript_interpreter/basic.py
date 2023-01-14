@@ -734,7 +734,8 @@ class Parser:
         if res.error:
             return res.failure(InvalidSyntaxError(
                 self.current_tok.pos_start, self.current_tok.pos_end,
-                "Expected 'RETURN', 'CONTINUE', 'BREAK', 'chope', 'sekali', 'FOR', 'where', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+                #"Expected 'RETURN', 'CONTINUE', 'BREAK', 'chope', 'sekali', 'FOR', 'where', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+                "Expected 'chope', 'sekali', 'where got time', int, float, identifier, '+', '-', '(', '[' or 'not'"
             ))
         return res.success(expr)
 
@@ -773,7 +774,8 @@ class Parser:
         if res.error:
             return res.failure(InvalidSyntaxError(
                 self.current_tok.pos_start, self.current_tok.pos_end,
-                "Expected 'chope', 'sekali', 'FOR', 'where', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+                #"Expected 'chope', 'sekali', 'FOR', 'where', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+                "Expected 'chope', 'sekali', 'where got time', int, float, identifier, '+', '-', '(', '[' or 'not'"
             ))
 
         return res.success(node)
@@ -799,7 +801,8 @@ class Parser:
         if res.error:
             return res.failure(InvalidSyntaxError(
                 self.current_tok.pos_start, self.current_tok.pos_end,
-                "Expected int, float, identifier, '+', '-', '(', '[', 'sekali', 'FOR', 'where', 'FUN' or 'NOT'"
+                #"Expected int, float, identifier, '+', '-', '(', '[', 'sekali', 'FOR', 'where', 'FUN' or 'NOT'"
+                "Expected int, float, identifier, '+', '-', '(', '[', 'sekali', 'where got time' or 'not'"
             ))
 
         return res.success(node)
@@ -846,7 +849,8 @@ class Parser:
                 if res.error:
                     return res.failure(InvalidSyntaxError(
                         self.current_tok.pos_start, self.current_tok.pos_end,
-                        "Expected ')', 'chope', 'sekali', 'FOR', 'where', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+                        #"Expected ')', 'chope', 'sekali', 'FOR', 'where', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+                        "Expected ')', 'chope', 'sekali', 'where got time', int, float, identifier, '+', '-', '(', '[' or 'not'"
                     ))
 
                 while self.current_tok.type == TT_COMMA:
@@ -936,7 +940,8 @@ class Parser:
 
         return res.failure(InvalidSyntaxError(
             tok.pos_start, tok.pos_end,
-            "Expected int, float, identifier, '+', '-', '(', '[', sekali', 'FOR', 'where got time', 'FUN'"
+            #"Expected int, float, identifier, '+', '-', '(', '[', sekali', 'FOR', 'where got time', 'FUN'"
+            "Expected int, float, identifier, '+', '-', '(', '[', sekali', 'where got time'"
         ))
 
     def list_expr(self):
@@ -961,7 +966,8 @@ class Parser:
             if res.error:
                 return res.failure(InvalidSyntaxError(
                     self.current_tok.pos_start, self.current_tok.pos_end,
-                    "Expected ']', 'chope', 'sekali', 'FOR', 'while got time', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+                    #"Expected ']', 'chope', 'sekali', 'FOR', 'where got time', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+                    "Expected ']', 'chope', 'sekali', 'where got time', int, float, identifier, '+', '-', '(', '[' or 'not'"
                 ))
 
             while self.current_tok.type == TT_COMMA:
