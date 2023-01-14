@@ -31,9 +31,7 @@ class Error:
     def as_string(self):
         result = f'{self.error_name}: {self.details}\n'
         result += f'File {self.pos_start.fn}, line {self.pos_start.ln + 1}'
-        result += '\n\n' + \
-            string_with_arrows(self.pos_start.ftxt,
-                               self.pos_start, self.pos_end)
+        result += '\n\n' + string_with_arrows(self.pos_start.ftxt, self.pos_start, self.pos_end)
         return result
 
 
@@ -280,6 +278,15 @@ class Lexer:
             elif self.current_char == ']':
                 tokens.append(Token(TT_RSQUARE, pos_start=self.pos))
                 self.advance()
+            # elif self.current_token == 'not':
+            #     print("hereee")
+            #     token, error = self.make_not_equals()
+            #     if error:
+            #         return [], error
+            #     tokens.append(token)
+            # elif self.current_char == '=':
+            #     tokens.append(self.make_equals())
+            
             elif self.current_char == ',':
                 tokens.append(Token(TT_COMMA, pos_start=self.pos))
                 self.advance()
@@ -360,17 +367,17 @@ class Lexer:
 
     def make_not_equals(self):
         pos_start = self.pos.copy()
-        self.advance()
+        self.advance_till_space()
 
-        if self.current_char == '=':
-            self.advance()
+        if self.current_token == 'same':
+            self.advance_till_space()
             return Token(TT_NE, pos_start=pos_start, pos_end=self.pos), None
 
         self.advance()
-        return None, ExpectedCharError(pos_start, self.pos, "'=' (after '!')")
+        return None, ExpectedCharError(pos_start, self.pos, "'same' (after 'not')")
 
     def make_equals(self):
-        tok_type = TT_EQ
+        tok_type = TT_EE
         pos_start = self.pos.copy()
         self.advance_till_space()
 
@@ -645,6 +652,9 @@ class Parser:
         if self.tok_idx >= 0 and self.tok_idx < len(self.tokens):
             self.current_tok = self.tokens[self.tok_idx]
 
+            self.next_tok = self.tokens[self.tok_idx+1] if self.tok_idx >= 0 and self.tok_idx + 1 < len(self.tokens) else None
+            self.next_next_tok = self.tokens[self.tok_idx+2] if self.tok_idx >= 0 and self.tok_idx + 2 < len(self.tokens) else None
+
     def parse(self):
         res = self.statements()
         if not res.error and self.current_tok.type != TT_EOF:
@@ -723,17 +733,27 @@ class Parser:
         if res.error:
             return res.failure(InvalidSyntaxError(
                 self.current_tok.pos_start, self.current_tok.pos_end,
-                "Expected 'RETURN', 'CONTINUE', 'BREAK', 'VAR', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+                "Expected 'RETURN', 'CONTINUE', 'BREAK', 'chope', 'sekali', 'FOR', 'where', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
             ))
         return res.success(expr)
 
+    # VAR IDENTIFIER EQ expr
+    # chope expr IDENTIFIER
     def expr(self):
         res = ParseResult()
 
-        if self.current_tok.matches(TT_KEYWORD, 'VAR'):
+        # If the first keyword is chope
+        if self.current_tok.matches(TT_KEYWORD, 'chope'):
+            # Advance to the next token
             res.register_advancement()
             self.advance()
 
+            # Eval the following expression
+            expr = res.register(self.expr())
+            if res.error:
+                return res
+
+            # Check for identifier     
             if self.current_tok.type != TT_IDENTIFIER:
                 return res.failure(InvalidSyntaxError(
                     self.current_tok.pos_start, self.current_tok.pos_end,
@@ -743,27 +763,16 @@ class Parser:
             var_name = self.current_tok
             res.register_advancement()
             self.advance()
-
-            if self.current_tok.type != TT_EQ:
-                return res.failure(InvalidSyntaxError(
-                    self.current_tok.pos_start, self.current_tok.pos_end,
-                    "Expected '='"
-                ))
-
-            res.register_advancement()
-            self.advance()
-            expr = res.register(self.expr())
-            if res.error:
-                return res
+            
             return res.success(VarAssignNode(var_name, expr))
 
         node = res.register(self.bin_op(
-            self.comp_expr, ((TT_KEYWORD, 'AND'), (TT_KEYWORD, 'OR'))))
+            self.comp_expr, ((TT_KEYWORD, 'and'), (TT_KEYWORD, 'or'))))
 
         if res.error:
             return res.failure(InvalidSyntaxError(
                 self.current_tok.pos_start, self.current_tok.pos_end,
-                "Expected 'VAR', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+                "Expected 'chope', 'sekali', 'FOR', 'where', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
             ))
 
         return res.success(node)
@@ -787,7 +796,7 @@ class Parser:
         if res.error:
             return res.failure(InvalidSyntaxError(
                 self.current_tok.pos_start, self.current_tok.pos_end,
-                "Expected int, float, identifier, '+', '-', '(', '[', 'IF', 'FOR', 'WHILE', 'FUN' or 'NOT'"
+                "Expected int, float, identifier, '+', '-', '(', '[', 'sekali', 'FOR', 'where', 'FUN' or 'NOT'"
             ))
 
         return res.success(node)
@@ -834,7 +843,7 @@ class Parser:
                 if res.error:
                     return res.failure(InvalidSyntaxError(
                         self.current_tok.pos_start, self.current_tok.pos_end,
-                        "Expected ')', 'VAR', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+                        "Expected ')', 'chope', 'sekali', 'FOR', 'where', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
                     ))
 
                 while self.current_tok.type == TT_COMMA:
@@ -856,6 +865,7 @@ class Parser:
             return res.success(CallNode(atom, arg_nodes))
         return res.success(atom)
 
+    # handles the commands
     def atom(self):
         res = ParseResult()
         tok = self.current_tok
@@ -897,7 +907,7 @@ class Parser:
                 return res
             return res.success(list_expr)
 
-        elif tok.matches(TT_KEYWORD, 'IF'):
+        elif tok.matches(TT_KEYWORD, 'sekali'):
             if_expr = res.register(self.if_expr())
             if res.error:
                 return res
@@ -909,7 +919,7 @@ class Parser:
                 return res
             return res.success(for_expr)
 
-        elif tok.matches(TT_KEYWORD, 'WHILE'):
+        elif tok.matches(TT_KEYWORD, 'where'):
             while_expr = res.register(self.while_expr())
             if res.error:
                 return res
@@ -923,7 +933,7 @@ class Parser:
 
         return res.failure(InvalidSyntaxError(
             tok.pos_start, tok.pos_end,
-            "Expected int, float, identifier, '+', '-', '(', '[', IF', 'FOR', 'WHILE', 'FUN'"
+            "Expected int, float, identifier, '+', '-', '(', '[', sekali', 'FOR', 'where got time', 'FUN'"
         ))
 
     def list_expr(self):
@@ -948,7 +958,7 @@ class Parser:
             if res.error:
                 return res.failure(InvalidSyntaxError(
                     self.current_tok.pos_start, self.current_tok.pos_end,
-                    "Expected ']', 'VAR', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+                    "Expected ']', 'chope', 'sekali', 'FOR', 'while got time', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
                 ))
 
             while self.current_tok.type == TT_COMMA:
@@ -976,20 +986,20 @@ class Parser:
 
     def if_expr(self):
         res = ParseResult()
-        all_cases = res.register(self.if_expr_cases('IF'))
+        all_cases = res.register(self.if_expr_cases('sekali'))
         if res.error:
             return res
         cases, else_case = all_cases
         return res.success(IfNode(cases, else_case))
 
     def if_expr_b(self):
-        return self.if_expr_cases('ELIF')
+        return self.if_expr_cases('otherwise')
 
     def if_expr_c(self):
         res = ParseResult()
         else_case = None
 
-        if self.current_tok.matches(TT_KEYWORD, 'ELSE'):
+        if self.current_tok.matches(TT_KEYWORD, 'bobian'):
             res.register_advancement()
             self.advance()
 
@@ -1022,7 +1032,7 @@ class Parser:
         res = ParseResult()
         cases, else_case = [], None
 
-        if self.current_tok.matches(TT_KEYWORD, 'ELIF'):
+        if self.current_tok.matches(TT_KEYWORD, 'otherwise'):
             all_cases = res.register(self.if_expr_b())
             if res.error:
                 return res
@@ -1052,10 +1062,10 @@ class Parser:
         if res.error:
             return res
 
-        if not self.current_tok.matches(TT_KEYWORD, 'THEN'):
+        if not self.current_tok.matches(TT_KEYWORD, 'then'):
             return res.failure(InvalidSyntaxError(
                 self.current_tok.pos_start, self.current_tok.pos_end,
-                f"Expected 'THEN'"
+                f"Expected 'then'"
             ))
 
         res.register_advancement()
@@ -1151,10 +1161,10 @@ class Parser:
         else:
             step_value = None
 
-        if not self.current_tok.matches(TT_KEYWORD, 'THEN'):
+        if not self.current_tok.matches(TT_KEYWORD, 'then'):
             return res.failure(InvalidSyntaxError(
                 self.current_tok.pos_start, self.current_tok.pos_end,
-                f"Expected 'THEN'"
+                f"Expected 'then'"
             ))
 
         res.register_advancement()
@@ -1188,12 +1198,17 @@ class Parser:
     def while_expr(self):
         res = ParseResult()
 
-        if not self.current_tok.matches(TT_KEYWORD, 'WHILE'):
+        if not self.current_tok.matches(TT_KEYWORD, 'where') or not self.next_tok.matches(TT_KEYWORD, 'got') or not self.next_next_tok.matches(TT_KEYWORD, 'time'):
+            print("here")
             return res.failure(InvalidSyntaxError(
                 self.current_tok.pos_start, self.current_tok.pos_end,
-                f"Expected 'WHILE'"
+                f"Expected 'where got time'"
             ))
 
+        res.register_advancement()
+        self.advance()
+        res.register_advancement()
+        self.advance()
         res.register_advancement()
         self.advance()
 
@@ -1201,10 +1216,10 @@ class Parser:
         if res.error:
             return res
 
-        if not self.current_tok.matches(TT_KEYWORD, 'THEN'):
+        if not self.current_tok.matches(TT_KEYWORD, 'then'):
             return res.failure(InvalidSyntaxError(
                 self.current_tok.pos_start, self.current_tok.pos_end,
-                f"Expected 'THEN'"
+                f"Expected 'then'"
             ))
 
         res.register_advancement()
@@ -1549,54 +1564,54 @@ class Number(Value):
 
     def get_comparison_eq(self, other):
         if isinstance(other, Number):
-            return Number(int(self.value == other.value)).set_context(self.context), None
+            return Number(self.value == other.value).set_context(self.context), None
         else:
             return None, Value.illegal_operation(self, other)
 
     def get_comparison_ne(self, other):
         if isinstance(other, Number):
-            return Number(int(self.value != other.value)).set_context(self.context), None
+            return Number(self.value != other.value).set_context(self.context), None
         else:
             return None, Value.illegal_operation(self, other)
 
     def get_comparison_lt(self, other):
         if isinstance(other, Number):
-            return Number(int(self.value < other.value)).set_context(self.context), None
+            return Number(self.value < other.value).set_context(self.context), None
         else:
             return None, Value.illegal_operation(self, other)
 
     def get_comparison_gt(self, other):
         if isinstance(other, Number):
-            return Number(int(self.value > other.value)).set_context(self.context), None
+            return Number(self.value > other.value).set_context(self.context), None
         else:
             return None, Value.illegal_operation(self, other)
 
     def get_comparison_lte(self, other):
         if isinstance(other, Number):
-            return Number(int(self.value <= other.value)).set_context(self.context), None
+            return Number(self.value <= other.value).set_context(self.context), None
         else:
             return None, Value.illegal_operation(self, other)
 
     def get_comparison_gte(self, other):
         if isinstance(other, Number):
-            return Number(int(self.value >= other.value)).set_context(self.context), None
+            return Number(self.value >= other.value).set_context(self.context), None
         else:
             return None, Value.illegal_operation(self, other)
 
     def anded_by(self, other):
         if isinstance(other, Number):
-            return Number(int(self.value and other.value)).set_context(self.context), None
+            return Number(True if self.value and other.value else False).set_context(self.context), None
         else:
             return None, Value.illegal_operation(self, other)
 
     def ored_by(self, other):
         if isinstance(other, Number):
-            return Number(int(self.value or other.value)).set_context(self.context), None
+            return Number(True if self.value or other.value else False).set_context(self.context), None
         else:
             return None, Value.illegal_operation(self, other)
 
     def notted(self):
-        return Number(1 if self.value == 0 else 0).set_context(self.context), None
+        return Number(True if self.value == 0 else False).set_context(self.context), None
 
     def copy(self):
         copy = Number(self.value)
@@ -1652,6 +1667,8 @@ class String(Value):
     def __repr__(self):
         return f'"{self.value}"'
 
+String.true = String("True")
+String.false = String("False")
 
 class List(Value):
     def __init__(self, elements):
@@ -2141,9 +2158,9 @@ class Interpreter:
             result, error = left.get_comparison_lte(right)
         elif node.op_tok.type == TT_GTE:
             result, error = left.get_comparison_gte(right)
-        elif node.op_tok.matches(TT_KEYWORD, 'AND'):
+        elif node.op_tok.matches(TT_KEYWORD, 'and'):
             result, error = left.anded_by(right)
-        elif node.op_tok.matches(TT_KEYWORD, 'OR'):
+        elif node.op_tok.matches(TT_KEYWORD, 'or'):
             result, error = left.ored_by(right)
 
         if error:
@@ -2331,8 +2348,8 @@ class Interpreter:
 
 global_symbol_table = SymbolTable()
 global_symbol_table.set("NULL", Number.null)
-global_symbol_table.set("FALSE", Number.false)
-global_symbol_table.set("TRUE", Number.true)
+global_symbol_table.set("FALSE", String.false)
+global_symbol_table.set("TRUE", String.true)
 global_symbol_table.set("MATH_PI", Number.math_PI)
 global_symbol_table.set("PRINT", BuiltInFunction.print)
 global_symbol_table.set("PRINT_RET", BuiltInFunction.print_ret)
@@ -2360,6 +2377,7 @@ def run(fn, text):
 
     # Generate AST
     parser = Parser(tokens)
+    print(tokens)
     ast = parser.parse()
     if ast.error:
         return None, ast.error
