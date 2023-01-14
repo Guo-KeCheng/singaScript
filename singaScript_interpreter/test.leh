@@ -23,7 +23,7 @@ alex;
 
 # If - else #
 
-sekali you lousier than alex then print("Lies");
+sekali you lousier than alex then simi("Lies");
 
 
 # While #
@@ -34,7 +34,12 @@ where got time grandma lousier than 1 then chope grandma -1 grandma;
 
 # Errors #
 
-FUN test(x, y) -> x same y; 
-print("yo");
+FUN test(x, y) -> x not same y; 
 
-test(9,8);
+simi("yo");
+
+test(9,9);
+
+True;
+
+False;

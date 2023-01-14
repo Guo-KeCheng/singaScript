@@ -10,5 +10,4 @@ result, error = basic.run('<stdin>', content.replace("can liao", ";"))
 if error:
     print(error.as_string())
 elif result:
-
-    print(repr(result))
+    print(repr(result).replace("True", "true").replace("False", "false"))
