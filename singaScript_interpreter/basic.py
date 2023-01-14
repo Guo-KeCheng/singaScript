@@ -143,9 +143,8 @@ KEYWORDS = [
     'FOR',
     'TO',
     'STEP',
-    'where', #'WHILE'
-    'got',
-    'time',
+    'keep', #'WHILE'
+    'on',
     'FUN',
     'then', #'THEN'
     'END',
@@ -735,7 +734,7 @@ class Parser:
             return res.failure(InvalidSyntaxError(
                 self.current_tok.pos_start, self.current_tok.pos_end,
                 #"Expected 'RETURN', 'CONTINUE', 'BREAK', 'chope', 'sekali', 'FOR', 'where', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
-                "Expected 'chope', 'sekali', 'where got time', int, float, identifier, '+', '-', '(', '[' or 'not'"
+                "Expected 'chope', 'sekali', 'keep on', int, float, identifier, '+', '-', '(', '[' or 'not'"
             ))
         return res.success(expr)
 
@@ -775,7 +774,7 @@ class Parser:
             return res.failure(InvalidSyntaxError(
                 self.current_tok.pos_start, self.current_tok.pos_end,
                 #"Expected 'chope', 'sekali', 'FOR', 'where', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
-                "Expected 'chope', 'sekali', 'where got time', int, float, identifier, '+', '-', '(', '[' or 'not'"
+                "Expected 'chope', 'sekali', 'keep on', int, float, identifier, '+', '-', '(', '[' or 'not'"
             ))
 
         return res.success(node)
@@ -802,7 +801,7 @@ class Parser:
             return res.failure(InvalidSyntaxError(
                 self.current_tok.pos_start, self.current_tok.pos_end,
                 #"Expected int, float, identifier, '+', '-', '(', '[', 'sekali', 'FOR', 'where', 'FUN' or 'NOT'"
-                "Expected int, float, identifier, '+', '-', '(', '[', 'sekali', 'where got time' or 'not'"
+                "Expected int, float, identifier, '+', '-', '(', '[', 'sekali', 'keep on' or 'not'"
             ))
 
         return res.success(node)
@@ -850,7 +849,7 @@ class Parser:
                     return res.failure(InvalidSyntaxError(
                         self.current_tok.pos_start, self.current_tok.pos_end,
                         #"Expected ')', 'chope', 'sekali', 'FOR', 'where', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
-                        "Expected ')', 'chope', 'sekali', 'where got time', int, float, identifier, '+', '-', '(', '[' or 'not'"
+                        "Expected ')', 'chope', 'sekali', 'keep on', int, float, identifier, '+', '-', '(', '[' or 'not'"
                     ))
 
                 while self.current_tok.type == TT_COMMA:
@@ -926,7 +925,7 @@ class Parser:
                 return res
             return res.success(for_expr)
 
-        elif tok.matches(TT_KEYWORD, 'where'):
+        elif tok.matches(TT_KEYWORD, 'keep'):
             while_expr = res.register(self.while_expr())
             if res.error:
                 return res
@@ -941,7 +940,7 @@ class Parser:
         return res.failure(InvalidSyntaxError(
             tok.pos_start, tok.pos_end,
             #"Expected int, float, identifier, '+', '-', '(', '[', sekali', 'FOR', 'where got time', 'FUN'"
-            "Expected int, float, identifier, '+', '-', '(', '[', sekali', 'where got time'"
+            "Expected int, float, identifier, '+', '-', '(', '[', sekali', 'keep on'"
         ))
 
     def list_expr(self):
@@ -967,7 +966,7 @@ class Parser:
                 return res.failure(InvalidSyntaxError(
                     self.current_tok.pos_start, self.current_tok.pos_end,
                     #"Expected ']', 'chope', 'sekali', 'FOR', 'where got time', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
-                    "Expected ']', 'chope', 'sekali', 'where got time', int, float, identifier, '+', '-', '(', '[' or 'not'"
+                    "Expected ']', 'chope', 'sekali', 'keep on', int, float, identifier, '+', '-', '(', '[' or 'not'"
                 ))
 
             while self.current_tok.type == TT_COMMA:
@@ -1207,14 +1206,12 @@ class Parser:
     def while_expr(self):
         res = ParseResult()
 
-        if not self.current_tok.matches(TT_KEYWORD, 'where') or not self.next_tok.matches(TT_KEYWORD, 'got') or not self.next_next_tok.matches(TT_KEYWORD, 'time'):
+        if not self.current_tok.matches(TT_KEYWORD, 'keep') or not self.next_tok.matches(TT_KEYWORD, 'on'):
             return res.failure(InvalidSyntaxError(
                 self.current_tok.pos_start, self.current_tok.pos_end,
-                f"Expected 'where got time'"
+                f"Expected 'keep on'"
             ))
 
-        res.register_advancement()
-        self.advance()
         res.register_advancement()
         self.advance()
         res.register_advancement()
@@ -2383,7 +2380,7 @@ def run(fn, text):
     tokens, error = lexer.make_tokens()
     if error:
         return None, error
-
+        
     # Generate AST
     parser = Parser(tokens)
     ast = parser.parse()
