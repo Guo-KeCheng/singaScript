@@ -70,7 +70,7 @@ async function submitCode(res, value, params, challengeIndex, testIndex) {
     const stdout = x.stdout;
     const exceptionOccurred = checkExceptionOccur(stdout);
 
-    const output = exceptionOccurred ? null : stdout;
+    const output = exceptionOccurred ? null : JSON.parse(stdout);
     const exceptionMsg = exceptionOccurred ? stdout : null;
 
     const returnResult = {
