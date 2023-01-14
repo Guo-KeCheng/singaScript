@@ -47,7 +47,7 @@ function runCode(res, value) {
           deleteLahFile(tmpFileName);
 
           exceptionOccurred = checkExceptionOccur(stdout);
-          const output = exceptionOccurred ? stdout : JSON.parse(stdout);
+          const output = exceptionOccurred ? [stdout] : JSON.parse(stdout);
           res.json({ output });
         }
       )
