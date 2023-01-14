@@ -14,7 +14,6 @@ The singaScript development environment is perfect for those who are interested 
 
 - To create a sense of belonging: singaScript is also aimed at creating a sense of community among Singaporeans by providing a platform for them to share their knowledge and skills with one another.
 
-
 ## Simi is SGStudioCode?
 
 The SGStudioCode development environment includes an interpreter, a virtual singlish-speaking "tutor" Merli and a set of tools that make it easy for users to practice, run and test their singaScript coding prowess. The interpreter allows users to run singaScript code in real-time, while a custom compiler can convert singaScript code into Python bytecode, making it more efficient to run.
@@ -23,45 +22,49 @@ The SGStudioCode development environment includes an interpreter, a virtual sing
 
 The syntax are as liddat
 
-| Keyword   |  singaScript        |
-| :-------: | :-----------------: |
-|  const    | `chope`             | 
-|  if       | `sekali`            |  
-|  then     | `then`              |
-|  elif     | `otherwise`         |
-|  else     | `bobian`            |
-|  while    | `where got time`    |
-|  print    | `simi`              |
+| Keyword | singaScript |
+| :-----: | :---------: |
+|  const  |   `chope`   |
+|   if    |  `sekali`   |
+|  then   |   `then`    |
+|  elif   | `otherwise` |
+|  else   |  `bobian`   |
+|  while  |  `keep on`  |
+|  print  |   `simi`    |
 
 Better operator? Swee
 
-| Operators   |  singaScript             |
-| :---------  | :----------------------- |
-|  and        | `and`                    | 
-|   or        |  `or`                    |
-|   ==        | `same`                   |
-|   !=        | `not same`               |
-|   >         | `better than`            |
-|   <         | `lousier than`           |
-|   >=        | `better than or same`    |
-|   <=        | `lousier than or same`   |
+| Operators | singaScript            |
+| :-------- | :--------------------- |
+| and       | `and`                  |
+| or        | `or`                   |
+| ==        | `same`                 |
+| !=        | `not same`             |
+| >         | `better than`          |
+| <         | `lousier than`         |
+| >=        | `better than or same`  |
+| <=        | `lousier than or same` |
 
 No more liao
 
-## Jialat! Another issue? 
+## Jialat! Another issue?
+
 - The code responsible for a low-level language is extremely complex and requires a deep understanding of the grammar rules,underlying systems and architecture. Decrypting the code is time consuming and much harder than expected.
 - Gained a better understanding asynchronous programming. "I am now async god" - @sikai #bueypaiseh
 
-
 ## What We Learned
+
 This is the first time we delve into the realm of lanugage developement. Through this project, we have developed a newfound appreciation for the knowledge and dedication of language developers to their craft. Embarking on this project within 24 hours is admittedly ambitious but it gave us the opportunity to pick up new skillsets while forcing us to think creatively and critically to find solutions to problems encountered.
 
 ## Let's improve singaScript, Onz?
+
 The singaScript project is open-source. We hope that the community can contribute to the development of the language by adding more features and improving the performance of the lanugage. Submit a pull request and we will get back to it eventually. Sumpah ;)
 
 ## Accomplishment siol
+
 We are happy with the final product.
 
 ## Credits/Reference
+
 [Singlang v2: Now Uncle also can code](https://github.com/frizensami/singlang)<br>
 [py-myopl-code](https://github.com/davidcallanan/py-myopl-code)
