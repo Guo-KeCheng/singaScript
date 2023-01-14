@@ -17,6 +17,9 @@ const index = () => {
             repeat={5} // Repeat this Animation Sequence infinitely
           />
         </div>
+        <h3 className="mb-10 text-xl text-white font-fredoka">
+          Code like a true Singaporean.
+        </h3>
         <div>
           <Link href={"/home"}>
             <button>

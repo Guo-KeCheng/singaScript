@@ -276,7 +276,7 @@ const Home = () => {
       if (data.exceptionOccurred) {
         setIDEOutput(data.exceptionMsg);
       } else {
-        const codeOutput = data.output;
+        const codeOutput = data.output.flat(Infinity);
         for (let i = 0; i < codeOutput.length; i++) {
           codeOutput[i] = `what u get > ${codeOutput[i]}`;
         }
