@@ -7,8 +7,13 @@ content = file.read()
 
 result, error = basic.run('<stdin>', content.replace("can liao", ";"))
 
-if error:
-    print(error.as_string())
-elif result:
 
-    print(repr(result))
+f = open("result.txt", "w")
+
+if error:
+    f.write(error.as_string())
+elif result:
+    f.write(repr(result))
+
+
+f.close()
