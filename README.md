@@ -35,7 +35,7 @@ The syntax are as liddat
 Better operator? Swee
 
 | Operators | singaScript            |
-| :-------- | :--------------------- |
+| :-------: | :--------------------: |
 | and       | `and`                  |
 | or        | `or`                   |
 | ==        | `same`                 |
