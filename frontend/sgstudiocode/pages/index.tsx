@@ -85,9 +85,10 @@ const Index = () => {
       userInput: code,
     };
 
-    axios
-      .post("localhost.com:3000", { submissionData })
-      .then((res) => console.log(res));
+    axios.post("localhost.com:3000", { submissionData }).then(({ data }) => {
+      setChallengeOutput(data);
+      setIDEOutput(data);
+    });
   };
 
   return (
