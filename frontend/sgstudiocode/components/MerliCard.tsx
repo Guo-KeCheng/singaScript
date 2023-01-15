@@ -105,10 +105,10 @@ const MerliCard: FunctionComponent<{
               width={300}
               height={200}
             />
+            <h1 className="ml-8 absolute p-6 text-[10px] text-black font-pressstart">
+              {speech}
+            </h1>
           </div>
-          <h1 className="ml-8 absolute p-6 text-[10px] text-black font-pressstart">
-            {speech}
-          </h1>
         </div>
       ) : (
         <div className="flex flex-col justify-center place-items-center">
