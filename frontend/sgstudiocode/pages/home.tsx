@@ -8,11 +8,9 @@ import ButtonSegment from "@/components/ButtonSegment";
 import IDE from "@/components/IDE";
 import TestCase from "@/components/TestCase";
 import axios from "axios";
-import { getRandomArbitrary } from "./utils";
+import { getRandomArbitrary } from "@/components/utils";
 import { motion } from "framer-motion";
 import { fadeInUp, stagger } from "@/styles/animations";
-import { randomFillSync } from "crypto";
-import { type } from "os";
 
 const Home = () => {
   const [activeChallenge, setActiveChallenge] = useState(0);
