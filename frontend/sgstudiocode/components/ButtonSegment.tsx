@@ -9,11 +9,18 @@ const ButtonSegment: FunctionComponent<{
   goToNext: Function;
 }> = ({ submitCode, canProceed, runCode, goToNext, challengeIndex }) => {
   return canProceed ? (
-    <button onClick={() => goToNext(true)} className="w-full">
-      <div className="py-3 mt-5 text-xs text-white rounded-lg bg-darkYellow font-pressstart hover:bg-gray-300 hover:text-black">
-        {challengeIndex == challenges.length - 1 ? `FIN` : `CONTINUE`}
-      </div>
-    </button>
+    <div className="grid grid-cols-3 gap-3 mt-5">
+      <button onClick={() => runCode()} className="col-span-2">
+        <div className="py-3 text-xs text-white rounded-lg bg-darkYellow font-pressstart hover:bg-gray-300 hover:text-black">
+          RUN
+        </div>
+      </button>
+      <button onClick={() => goToNext(true)} className="col-span-1">
+        <div className="py-3 text-xs text-white rounded-lg bg-darkYellow font-pressstart hover:bg-gray-300 hover:text-black">
+          {challengeIndex == challenges.length - 1 ? `FIN` : `CONTINUE`}
+        </div>
+      </button>
+    </div>
   ) : (
     <div className="grid grid-cols-3 gap-3 mt-5">
       <button onClick={() => runCode()} className="col-span-2">
