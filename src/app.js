@@ -7,12 +7,8 @@ const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(cors({ origin: "https://singa-script.vercel.app" }));
 app.use(logger("dev"));
-app.use(
-  cors({
-    origin: "https://singa-script.vercel.app/",
-  })
-);
 
 app.get("/", function (req, res) {
   res.send("Hello World!");
