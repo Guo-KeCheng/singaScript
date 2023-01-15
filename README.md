@@ -20,6 +20,44 @@ The SGStudioCode development environment includes an interpreter, a virtual Sing
 
 ## How to code in singaScript ah?
 
+```
+# Welcome to singaScript #
+
+chope 1 table
+chope 2 benches
+
+tables not same benches 
+
+chope 5 your_grades
+chope 10 my_grades
+
+sekali my_grades better than your_grades then simi("Facts") bobian simi("Lies")
+
+keep on my_grades lousier than 100 then chope my_grades + 1 my_grades
+```
+
+```
+// Welcome to singaScript
+
+const table = 1;
+const benches = 2;
+
+(table != benches);
+
+const your_grades = 5;
+const my_grades = 10;
+
+if (my_grades > your_grades) {
+    console.log("Facts"); 
+} else {
+    console.log("Lies"); 
+}
+
+while (my_grades < 100) {
+    my_grades = my_grades + 1; 
+}
+```
+
 The syntaxes are as liddat
 
 | Keyword | singaScript |
