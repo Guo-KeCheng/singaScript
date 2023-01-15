@@ -15,7 +15,7 @@ import { fadeInUp, stagger } from "@/styles/animations";
 const Home = () => {
   const [activeChallenge, setActiveChallenge] = useState(0);
   const [validChallenges, setValidChallenges] = useState(
-    Array(challenges.length).fill(true)
+    Array(challenges.length).fill(false)
   );
 
   const [savedIdeState, saveIdeState] = useState(
@@ -259,32 +259,36 @@ const Home = () => {
       userInput: code,
     };
 
-    axios.post("https://singascript-backend.herokuapp.com/run", submissionData).then((response) => {
-      if (response.status !== 200) {
-        console.log("Error occurred");
-        console.log(response);
-        setMerliSpeech(
-          "Walao eh our code crashed :( Don't worry la you can try again next time!"
-        );
-        return;
-      }
-
-      const data = response.data;
-
-      if (data.exceptionOccurred) {
-        setIDEOutput(data.exceptionMsg);
-      } else {
-        const codeOutput = data.output.flat(Infinity);
-        for (let i = 0; i < codeOutput.length; i++) {
-          codeOutput[i] = `what u get > ${codeOutput[i]}`;
+    axios
+      .post("https://singascript-backend.herokuapp.com/run", submissionData)
+      .then((response) => {
+        if (response.status !== 200) {
+          console.log("Error occurred");
+          console.log(response);
+          setMerliSpeech(
+            "Walao eh our code crashed :( Don't worry la you can try again next time!"
+          );
+          return;
         }
-        var speech =
-          merliGeneral[Math.floor(getRandomArbitrary(0, merliGeneral.length))];
 
-        setMerliSpeech(speech);
-        setIDEOutput(codeOutput.join("\n"));
-      }
-    });
+        const data = response.data;
+
+        if (data.exceptionOccurred) {
+          setIDEOutput(data.exceptionMsg);
+        } else {
+          const codeOutput = data.output.flat(Infinity);
+          for (let i = 0; i < codeOutput.length; i++) {
+            codeOutput[i] = `what u get > ${codeOutput[i]}`;
+          }
+          var speech =
+            merliGeneral[
+              Math.floor(getRandomArbitrary(0, merliGeneral.length))
+            ];
+
+          setMerliSpeech(speech);
+          setIDEOutput(codeOutput.join("\n"));
+        }
+      });
   };
 
   return (
