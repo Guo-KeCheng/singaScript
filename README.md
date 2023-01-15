@@ -1,6 +1,8 @@
 # singaScript by SGStudioCode
 
-![image](https://user-images.githubusercontent.com/96603198/212491962-3137bc11-128d-4ef4-8c83-e430089c7852.png)
+![image](https://user-images.githubusercontent.com/96603198/212504468-9283396d-7f57-4a60-a866-4b8566935c41.png)
+![image](https://user-images.githubusercontent.com/96603198/212504472-9291040c-4923-4c42-a401-c3ccf6040986.png)
+
 
 The singaScript project consists of a development environment (SGStudioCode) for users to run, evaluate, and test singaScript, a custom-built programming language. SingaScript is a low-level programming language built on top of Python and it uses almost exclusively Singaporean slangs as keywords, making it a unique and fun way to program.
 
@@ -88,7 +90,10 @@ No more liao
 ## Jialat! Another issue?
 
 - The code responsible for a low-level language is extremely complex and requires a deep understanding of the grammar rules, underlying systems and architecture. Decrypting the code is time-consuming and much harder than expected.
-- Gained a better understanding of asynchronous programming. "I am now async god" - @sikai #bueypaiseh
+- Gained a better understanding of asynchronous programming. "I am now async god" - @sikai00 #bueypaiseh
+- Lack of proficiency in tech stack resulted in small hiccups along the way
+- Working on sleep deprivation was an added challenge
+- Had issues with managing state using React Hooks
 
 ## What We Learned
 
