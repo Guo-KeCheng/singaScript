@@ -1,7 +1,26 @@
 # singaScript by SGStudioCode
 
-![image](https://user-images.githubusercontent.com/96603198/212504468-9283396d-7f57-4a60-a866-4b8566935c41.png)
-![image](https://user-images.githubusercontent.com/96603198/212504472-9291040c-4923-4c42-a401-c3ccf6040986.png)
+<p align="center">
+<img src="https://user-images.githubusercontent.com/96603198/212516706-dfcf28f3-e381-40b4-b312-a49cc9d37fc1.jpg" align="center" height=auto width="600">
+</p>
+<p align="center">
+<em>Landing Page<em>
+</p><br/>
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/96603198/212519699-a081b185-eafe-448d-a6e8-2e53cf38979c.jpg" align="center" height=auto width="600">
+</p>
+<p align="center">
+<em>Pass Testcase<em>
+</p><br/>
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/96603198/212516967-44852dbc-6262-409c-8a4d-d1750525408f.png" align="center" height=auto width="600">
+</p>
+<p align="center">
+<em>Fail Testcase<em>
+</p><br/>
+
 
 
 The singaScript project consists of a development environment (SGStudioCode) for users to run, evaluate, and test singaScript, a custom-built programming language. SingaScript is a low-level programming language built on top of Python and it uses almost exclusively Singaporean slangs as keywords, making it a unique and fun way to program.
@@ -110,4 +129,5 @@ We are happy with the final product.
 ## Credits/Reference
 
 [Singlang v2: Now Uncle also can code](https://github.com/frizensami/singlang)<br>
-[py-myopl-code](https://github.com/davidcallanan/py-myopl-code)
+[py-myopl-code](https://github.com/davidcallanan/py-myopl-code)<br>
+Credits to Singapore Tourism Board for the Merli Mascot 
