@@ -36,3 +36,9 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Connect to local backend host
+
+1. Ensure that both front end and back end are running on different domains/ports.
+1. Go to `frontend/sgstudiocode/pages/home.tsx` and update the domain of the axios post requests (there are two, one for run endpoint and one for submit endpoint)
+1. Configure the CORS middleware in `src/app.js` to use the local back end domain instead.
