@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 app.use(logger("dev"));
 app.use(
   cors({
-    origin: "http://localhost:3002",
+    origin: "https://singa-script.vercel.app/",
   })
 );
 
