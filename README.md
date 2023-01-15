@@ -12,15 +12,15 @@ The singaScript development environment is perfect for those who are interested 
 
 - To give a twist to modern programming: singaScript is a low-level programming language built on top of Python and it uses Singaporean slangs as keywords which makes it more interesting and fun to program.
 
-- To create a sense of belonging: singaScript is also aimed at creating a sense of community among Singaporeans by providing a platform for them to share their knowledge and skills with one another.
+- To create a sense of belonging: singaScript is also aimed at creating a sense of community among Singaporeans by providing a platform for them to share their knowledge and skills.
 
 ## Simi is SGStudioCode?
 
-The SGStudioCode development environment includes an interpreter, a virtual singlish-speaking "tutor" Merli and a set of tools that make it easy for users to practice, run and test their singaScript coding prowess. The interpreter allows users to run singaScript code in real-time, while a custom compiler can convert singaScript code into Python bytecode, making it more efficient to run.
+The SGStudioCode development environment includes an interpreter, a virtual Singlish-speaking "tutor" Merli and a set of tools that make it easy for users to practice, run and test their singaScript coding prowess. The interpreter allows users to run singaScript code in real-time, while a custom compiler can convert singaScript code into Python bytecode, making it more efficient to run.
 
 ## How to code in singaScript ah?
 
-The syntax are as liddat
+The syntaxes are as liddat
 
 | Keyword | singaScript |
 | :-----: | :---------: |
@@ -49,16 +49,16 @@ No more liao
 
 ## Jialat! Another issue?
 
-- The code responsible for a low-level language is extremely complex and requires a deep understanding of the grammar rules,underlying systems and architecture. Decrypting the code is time consuming and much harder than expected.
-- Gained a better understanding asynchronous programming. "I am now async god" - @sikai #bueypaiseh
+- The code responsible for a low-level language is extremely complex and requires a deep understanding of the grammar rules, underlying systems and architecture. Decrypting the code is time-consuming and much harder than expected.
+- Gained a better understanding of asynchronous programming. "I am now async god" - @sikai #bueypaiseh
 
 ## What We Learned
 
-This is the first time we delve into the realm of lanugage developement. Through this project, we have developed a newfound appreciation for the knowledge and dedication of language developers to their craft. Embarking on this project within 24 hours is admittedly ambitious but it gave us the opportunity to pick up new skillsets while forcing us to think creatively and critically to find solutions to problems encountered.
+This is the first time we delve into the realm of language development. Through this project, we have developed a newfound appreciation for the knowledge and dedication of language developers to their craft. Embarking on this project within 24 hours is admittedly ambitious but it allowed us to pick up new skill sets while forcing us to think creatively and critically to find solutions to problems encountered.
 
 ## Let's improve singaScript, Onz?
 
-The singaScript project is open-source. We hope that the community can contribute to the development of the language by adding more features and improving the performance of the lanugage. Submit a pull request and we will get back to it eventually. Sumpah ;)
+The singaScript project is open-source. We hope that the community can contribute to the development of the language by adding more features and improving its performance of the language. Submit a pull request and we will get back to it eventually. Sumpah ;)
 
 ## Accomplishment siol
 
